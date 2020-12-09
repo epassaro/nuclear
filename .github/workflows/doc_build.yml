@@ -28,6 +28,7 @@ jobs:
     - name: Install base dependencies
       run: |
         python -m pip install --upgrade pip
+        python -m pip install tox
 
     - name: Build documentation
       run: |
