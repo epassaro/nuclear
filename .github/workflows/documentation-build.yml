@@ -1,14 +1,7 @@
-# For more information on how to use this template please refer to:
-# http://tardis-sn.github.io/tardis/development/continuous_integration.html
-
 name: Documentation build
 
 on:
   push:
-    branches:
-      - master
-
-  pull_request:
     branches:
       - master
 
@@ -30,7 +23,7 @@ jobs:
             channels: conda-forge, defaults
             mamba-version: "*"
 
-      - name: Install TARDIS
+      - name: Install nuclear
         shell: bash -l {0}
         run: python setup.py install 
 
