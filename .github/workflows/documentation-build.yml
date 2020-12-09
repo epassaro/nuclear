@@ -34,13 +34,9 @@ jobs:
         shell: bash -l {0}
         run: python setup.py install 
 
-      - name: Install tox
-        shell: bash -l {0}
-        run: pip install tox sphinx_rtd_theme
-
       - name: Build documentation
         shell: bash -l {0}
-        run: tox -e build_docs
+        run: cd docs && make html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
