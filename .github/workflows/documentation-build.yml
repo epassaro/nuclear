@@ -1,7 +1,7 @@
 # For more information on how to use this template please refer to:
 # http://tardis-sn.github.io/tardis/development/continuous_integration.html
 
-name: documentation-build
+name: Documentation build
 
 on:
   push:
@@ -14,6 +14,7 @@ on:
 
 jobs:
   documentation_build:
+    name: Documentation build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +22,7 @@ jobs:
       - name: Get environment file
         run: curl -o tardis_env3.yml https://raw.githubusercontent.com/tardis-sn/tardis/master/tardis_env3.yml
 
-      - name: Setup TARDIS Environment 
+      - name: Setup TARDIS environment 
         uses: conda-incubator/setup-miniconda@v2
         with:
             environment-file: tardis_env3.yml
@@ -35,9 +36,9 @@ jobs:
 
       - name: Install tox
         shell: bash -l {0}
-        run: pip install tox
+        run: pip install tox sphinx_rtd_theme
 
-      - name: Build Sphinx Documentation
+      - name: Build documentation
         shell: bash -l {0}
         run: tox -e build_docs
 
