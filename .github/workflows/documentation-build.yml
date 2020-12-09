@@ -1,0 +1,49 @@
+# For more information on how to use this template please refer to:
+# http://tardis-sn.github.io/tardis/development/continuous_integration.html
+
+name: documentation-build
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  documentation_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get environment file
+        run: curl -o tardis_env3.yml https://raw.githubusercontent.com/tardis-sn/tardis/master/tardis_env3.yml
+
+      - name: Setup TARDIS Environment 
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+            environment-file: tardis_env3.yml
+            activate-environment: tardis
+            channels: conda-forge, defaults
+            mamba-version: "*"
+
+      - name: Install TARDIS
+        shell: bash -l {0}
+        run: python setup.py install 
+
+      - name: Install tox
+        shell: bash -l {0}
+        run: pip install tox
+
+      - name: Build Sphinx Documentation
+        shell: bash -l {0}
+        run: tox -e build_docs
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_build/html/
+          publish_branch: gh-pages
